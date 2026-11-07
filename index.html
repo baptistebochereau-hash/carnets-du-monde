@@ -99,7 +99,7 @@ dialog::backdrop{background:rgba(0,0,0,.5)}dialog h2{font-size:1.4rem;margin-bot
   <div class="map" id="mapbox"><svg viewBox="0 0 300 200" role="img" aria-label="Carte du pays"><path id="mp"/></svg></div>
   <p class="msg" id="loginhint">Connecte-toi pour ajouter un souvenir.</p>
   <div class="form" id="form" hidden>
-    <input id="author" maxlength="40" placeholder="Ton prénom">
+   <input id="author" readonly placeholder="Ton nom">
     <textarea id="text" rows="3" maxlength="600" placeholder="Un petit commentaire sur ce pays…"></textarea>
     <div class="row">
       <input type="file" id="photo" accept="image/*" style="width:auto;flex:1;min-width:180px">
@@ -178,7 +178,7 @@ async function refreshUser(){
   const s=await sb.auth.getSession();me=s.data.session?s.data.session.user:null;admin=false;
   if(me){const r=await sb.from("admins").select("user_id").eq("user_id",me.id).maybeSingle();admin=!!r.data}
   $("authbtn").textContent=me?"Déconnexion ("+me.email+")":"Se connecter";
-  $("form").hidden=!me;$("loginhint").hidden=!!me;$("bgbtn").hidden=!admin;renderPosts();
+     $("author").value=me?me.email.split("@")[0]:"";$("form").hidden=!me;;$("loginhint").hidden=!!me;$("bgbtn").hidden=!admin;renderPosts();
 }
 const ext=f=>((f.name.split(".").pop()||"jpg").toLowerCase().replace(/[^a-z0-9]/g,"")||"jpg");
 $("authbtn").onclick=async()=>{if(me){await sb.auth.signOut()}else{$("amsg").textContent="";$("dlg").showModal()}};
