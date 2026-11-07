@@ -185,11 +185,11 @@ $("authbtn").onclick=async()=>{if(me){await sb.auth.signOut()}else{$("amsg").tex
 $("cancel").onclick=()=>$("dlg").close();
 $("login").onclick=async()=>{
   const r=await sb.auth.signInWithPassword({email:$("em").value.trim(),password:$("pw").value});
-  if(r.error)$("amsg").textContent="Adresse ou mot de passe incorrect (ou e-mail pas encore confirmé).";else $("dlg").close();
+   if(r.error)$("amsg").textContent="Erreur : "+r.error.message;else $("dlg").close();
 };
 $("signup").onclick=async()=>{
   const r=await sb.auth.signUp({email:$("em").value.trim(),password:$("pw").value});
-  if(r.error)$("amsg").textContent="Création impossible (mot de passe trop court ou adresse déjà utilisée).";
+    if(r.error)$("amsg").textContent="Erreur : "+r.error.message;
   else if(r.data.session)$("dlg").close();
   else $("amsg").textContent="Compte créé ! Vérifie ta boîte mail pour confirmer, puis connecte-toi.";
 };
