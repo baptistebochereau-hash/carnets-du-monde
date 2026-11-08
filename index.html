@@ -163,7 +163,7 @@ function route(){
   const c=location.hash.slice(1).toUpperCase();
   const ok=CODES.includes(c);current=ok?c:null;
   $("home").hidden=ok;$("country").hidden=!ok;
-  if(ok){$("cf").textContent=flag(c);$("cn").textContent=nm(c);const d=typeof MAPS!=="undefined"?MAPS[c]:null;$("mapbox").hidden=!d;if(d)$("mp").setAttribute("d",d);renderPosts();window.scrollTo(0,0)}
+  if(ok){$("cf").textContent=flag(c);$("cn").textContent=nm(c);   showSat(c);
 }
 
 $("back").onclick=()=>{location.hash="pays"};
