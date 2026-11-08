@@ -21,11 +21,23 @@
     sec.append(el("h3",null,"Mes pays ("+names.length+" sur "+CODES.length+")"));
     if(!names.length)sec.append(el("p","msg","Tu n'as pas encore partagé de souvenir. Choisis un pays pour commencer !"));
     names.forEach(x=>{const b=el("button","chip",flag(x.c)+" "+x.n);b.onclick=()=>{location.hash=x.c};sec.append(b)});
+    const vil=new Map();
+    mine.forEach(p=>[p.city,...photosOf(p).map(x=>x.city)].filter(Boolean).forEach(c=>vil.set(c+"|"+p.country,{c,k:p.country})));
+    if(vil.size){
+      sec.append(el("h3",null,"Mes villes ("+vil.size+")"));
+      [...vil.values()].sort((a,b)=>a.c.localeCompare(b.c,"fr")).forEach(v=>{const b=el("button","chip","📍 "+v.c+" · "+flag(v.k)+" "+nm(v.k));b.onclick=()=>{location.hash=v.k};sec.append(b)});
+    }
     sec.append(el("h3",null,"Mes commentaires ("+mine.length+")"));
     mine.forEach(p=>{
       const d=el("article","post");
-      if(p.photo_path&&sb){const i=el("img");i.src=pub(p.photo_path);i.alt="";i.loading="lazy";d.append(i)}
+      const ph=photosOf(p);
+      if(ph.length&&sb){
+        const g=el("div","pgrid"+(ph.length===1?" one":""));
+        ph.forEach(x=>{const f=el("figure");const i=el("img");i.src=pub(x.path);i.alt="";i.loading="lazy";f.append(i);if(x.city)f.append(el("figcaption",null,"📍 "+x.city));g.append(f)});
+        d.append(g);
+      }
       const w=el("div");
+      if(p.city)w.append(el("p","city","📍 "+p.city));
       if(p.text)w.append(el("p",null,p.text));
       const m=el("div","meta");m.style.padding="0";
       const a=el("a",null,flag(p.country)+" "+nm(p.country));a.onclick=()=>{location.hash=p.country};
@@ -43,4 +55,5 @@
   const orig=renderPosts;
   renderPosts=function(){orig();render()};
   show();
+})();
 })();
