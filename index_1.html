@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Carnets du monde</title>
+<style>
+:root{--bg:#faf7f2;--fg:#1f2933;--card:#fff;--mut:#6b7280;--acc:#0e7490;--bd:#e5e0d8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14181c;--fg:#eef1f4;--card:#1d2329;--mut:#9aa5b1;--acc:#4fc3d9;--bd:#2d353d}}
+:root[data-theme="dark"]{--bg:#14181c;--fg:#eef1f4;--card:#1d2329;--mut:#9aa5b1;--acc:#4fc3d9;--bd:#2d353d}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+h1,h2{font-family:Georgia,"Times New Roman",serif;margin:0}
+.hero{position:relative;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;color:#fff;padding:24px;overflow:hidden}
+.hero svg{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.hero>div{position:relative;z-index:1;max-width:640px}
+.hero h1{font-size:clamp(2.4rem,8vw,4.5rem);text-shadow:0 2px 20px rgba(0,0,0,.35)}
+.hero p{font-size:1.15rem;margin:12px 0 28px;text-shadow:0 1px 10px rgba(0,0,0,.4)}
+.btn{display:inline-block;background:#f59e0b;color:#1f1300;border:0;border-radius:999px;padding:12px 26px;font-weight:600;font-size:1rem;cursor:pointer;text-decoration:none}
+.btn.alt{background:var(--acc);color:#fff}
+main{max-width:1000px;margin:0 auto;padding:48px 20px 64px}
+#home h2{font-size:2rem}
+.sub{color:var(--mut);margin:6px 0 20px}
+input,textarea{width:100%;padding:11px 13px;border:1px solid var(--bd);border-radius:10px;background:var(--card);color:var(--fg);font:inherit}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-top:20px}
+.country{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;cursor:pointer;text-align:left;color:var(--fg);font:inherit;display:flex;flex-direction:column;gap:4px;transition:transform .15s}
+.country:hover{transform:translateY(-3px);border-color:var(--acc)}
+.country .f{font-size:2rem}
+.country small{color:var(--acc);font-weight:600;min-height:1.2em}
+.back{background:none;border:0;color:var(--acc);font:inherit;cursor:pointer;padding:0;margin-bottom:16px}
+.head{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+.head .f{font-size:3.2rem}
+.form{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px;display:grid;gap:10px;margin:20px 0}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.msg{color:var(--mut);font-size:.9rem}
+.post{background:var(--card);border:1px solid var(--bd);border-radius:14px;overflow:hidden;margin-bottom:16px}
+.post img{display:block;width:100%;max-height:420px;object-fit:cover}
+.post div{padding:14px 16px}
+.post p{margin:0 0 8px;white-space:pre-wrap;overflow-wrap:anywhere}
+.meta{color:var(--mut);font-size:.85rem;display:flex;justify-content:space-between;gap:8px}
+.meta button{background:none;border:0;color:var(--mut);cursor:pointer;text-decoration:underline;font:inherit}
+.map{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:10px;margin:16px 0;max-width:340px}
+.map svg{display:block;width:100%;height:auto}.map path{fill:var(--acc);stroke:var(--bg);stroke-width:.6;fill-rule:evenodd}
+.hero.photo svg{display:none}.hero.photo{background-size:cover;background-position:center}
+.hero.photo:before{content:"";position:absolute;inset:0;background:rgba(0,0,0,.28)}
+.edit{position:absolute;top:calc(env(safe-area-inset-top,0px) + 14px);right:14px;z-index:2;background:rgba(255,255,255,.9);color:#1f2933;border:0;border-radius:999px;padding:8px 16px;font:inherit;font-size:.9rem;cursor:pointer}
+[hidden]{display:none!important}
+#authbtn{position:fixed;top:calc(env(safe-area-inset-top,0px) + 14px);right:14px;z-index:20;max-width:70vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;box-shadow:0 2px 10px rgba(0,0,0,.2)}
+#bgbtn{right:auto;left:14px}
+dialog{border:1px solid var(--bd);border-radius:16px;background:var(--card);color:var(--fg);padding:22px;width:min(92vw,380px)}
+dialog::backdrop{background:rgba(0,0,0,.5)}dialog h2{font-size:1.4rem;margin-bottom:12px}dialog input{margin-bottom:10px}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:2px}
+.pgrid.one{grid-template-columns:1fr}
+.pgrid figure{margin:0;position:relative}
+.pgrid img{display:block;width:100%;height:220px;object-fit:cover;max-height:none}
+.pgrid.one img{height:auto;max-height:420px}
+.pgrid figcaption{position:absolute;left:0;right:0;bottom:0;padding:18px 10px 6px;color:#fff;font-size:.85rem;background:linear-gradient(transparent,rgba(0,0,0,.65))}
+.post .pgrid{padding:0}
+.city{color:var(--acc);font-weight:600}
+.prow{display:flex;gap:10px;align-items:center}
+.prow img{width:56px;height:56px;object-fit:cover;border-radius:8px;flex:none}
+.xbtn{background:none;border:0;color:var(--mut);font-size:1.2rem;cursor:pointer}
+#plist{display:grid;gap:8px}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="satellite.js"></script>
+</head>
+<body>
+<button class="edit" id="authbtn">Se connecter</button>
+<dialog id="dlg">
+  <h2>Connexion</h2>
+  <input id="em" type="email" placeholder="Adresse e-mail" autocomplete="email">
+  <input id="pw" type="password" placeholder="Mot de passe (6 caractères minimum)" autocomplete="current-password">
+  <div class="row"><button class="btn alt" id="login">Se connecter</button><button class="btn" id="signup">Créer un compte</button><button class="back" id="cancel" style="margin:0">Annuler</button></div>
+  <p class="msg" id="amsg"></p>
+</dialog>
+<div id="home">
+  <header class="hero" id="hero">
+    <button class="edit" id="bgbtn" hidden>🖼 Changer l'image de fond</button>
+    <input type="file" id="bgfile" accept="image/*" hidden>
+    <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1e3a5f"/><stop offset=".55" stop-color="#e76f51"/><stop offset="1" stop-color="#f4a261"/></linearGradient>
+        <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0e4d6b"/><stop offset="1" stop-color="#062b3d"/></linearGradient>
+      </defs>
+      <rect width="1200" height="800" fill="url(#sky)"/>
+      <circle cx="840" cy="440" r="90" fill="#ffe8a3" opacity=".95"/>
+      <path d="M0 520 L180 330 L300 450 L460 280 L640 470 L760 400 L960 500 L1200 380 V620 H0Z" fill="#274c6b" opacity=".85"/>
+      <path d="M0 580 L220 440 L380 540 L560 410 L760 560 L1000 460 L1200 570 V650 H0Z" fill="#173a54"/>
+      <rect y="620" width="1200" height="180" fill="url(#sea)"/>
+      <path d="M0 680 q60 -14 120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0" fill="none" stroke="#7dd3e8" stroke-width="3" opacity=".5"/>
+    </svg>
+    <div>
+      <h1>Carnets du monde</h1>
+      <p>Chaque pays a son histoire. Partage tes photos et tes souvenirs de voyage.</p>
+      <a class="btn" href="#pays">Explorer les pays ↓</a>
+    </div>
+  </header>
+  <main id="pays">
+    <h2>Tous les pays du monde</h2>
+    <p class="sub">Clique sur un pays pour lire les souvenirs des voyageurs et ajouter les tiens.</p>
+    <input id="search" type="search" placeholder="Rechercher un pays…" aria-label="Rechercher un pays">
+    <div class="grid" id="grid"></div>
+  </main>
+</div>
+
+<main id="country" hidden>
+  <button class="back" id="back">← Tous les pays</button>
+  <div class="head"><span class="f" id="cf"></span><h2 id="cn"></h2></div>
+  <p class="sub" id="cc"></p>
+  <div id="sat"></div>
+  <p class="msg" id="loginhint">Connecte-toi pour ajouter un souvenir.</p>
+  <div class="form" id="form" hidden>
+    <input id="author" readonly placeholder="Ton nom">
+    <input id="city" list="cities" maxlength="60" placeholder="Ville visitée (facultatif)">
+    <datalist id="cities"></datalist>
+    <textarea id="text" rows="3" maxlength="600" placeholder="Un petit commentaire sur ce pays…"></textarea>
+    <div class="row">
+      <label class="btn alt" for="photo">📷 Ajouter des photos</label>
+      <input type="file" id="photo" accept="image/*" multiple hidden>
+      <span class="msg">10 photos maximum, 5 Mo chacune</span>
+    </div>
+    <div id="plist"></div>
+    <div class="row"><button class="btn alt" id="send">Publier</button><span class="msg" id="msg"></span></div>
+  </div>
+  <div id="posts"></div>
+</main>
+
+<script>
+const SUPABASE_URL="COLLE_ICI_L_ADRESSE_DU_PROJET";
+const SUPABASE_KEY="COLLE_ICI_LA_CLE_PUBLIQUE";
+const CODES="AF AL DZ AD AO AG AR AM AU AT AZ BS BH BD BB BY BE BZ BJ BT BO BA BW BR BN BG BF BI CV KH CM CA CF TD CL CN CO KM CG CD CR CI HR CU CY CZ DK DJ DM DO EC EG SV GQ ER EE SZ ET FJ FI FR GA GM GE DE GH GR GD GT GN GW GY HT HN HU IS IN ID IR IQ IE IL IT JM JP JO KZ KE KI KP KR KW KG LA LV LB LS LR LY LI LT LU MG MW MY MV ML MT MH MR MU MX FM MD MC MN ME MA MZ MM NA NR NP NL NZ NI NE NG MK NO OM PK PW PS PA PG PY PE PH PL PT QA RO RU RW KN LC VC WS SM ST SA SN RS SC SL SG SK SI SB SO ZA SS ES LK SD SR SE CH SY TW TJ TZ TH TL TG TO TT TN TR TM TV UG UA AE GB US UY UZ VU VA VE VN YE ZM ZW XK".split(" ");
+const dn=new Intl.DisplayNames(["fr"],{type:"region"});
+const flag=c=>String.fromCodePoint(...[...c].map(x=>x.charCodeAt(0)+0x1f1a5));
+const nm=c=>{try{return dn.of(c)||c}catch(e){return c}};
+const countries=CODES.map(c=>({c,n:nm(c)})).sort((a,b)=>a.n.localeCompare(b.n,"fr"));
+const $=id=>document.getElementById(id);
+let posts=[],sb=null,me=null,admin=false,current=null;
+const pub=p=>sb.storage.from("photos").getPublicUrl(p).data.publicUrl;
+
+function renderGrid(){
+  const q=$("search").value.trim().toLowerCase(),g=$("grid");g.textContent="";
+  const cnt={};posts.forEach(p=>cnt[p.country]=(cnt[p.country]||0)+1);
+  countries.filter(x=>x.n.toLowerCase().includes(q)).forEach(x=>{
+    const b=document.createElement("button");b.className="country";
+    const f=document.createElement("span");f.className="f";f.textContent=flag(x.c);
+    const n=document.createElement("span");n.textContent=x.n;
+    const s=document.createElement("small");const k=cnt[x.c]||0;s.textContent=k?k+(k>1?" souvenirs":" souvenir"):"";
+    b.append(f,n,s);b.onclick=()=>{location.hash=x.c};g.append(b);
+  });
+}
+
+function photosOf(p){
+  const a=Array.isArray(p.photos)?p.photos.slice():[];
+  if(p.photo_path&&!a.some(x=>x.path===p.photo_path))a.unshift({path:p.photo_path,city:p.city||""});
+  return a;
+}
+function citiesOf(country){
+  const s=new Set();
+  posts.filter(p=>p.country===country).forEach(p=>{if(p.city)s.add(p.city);photosOf(p).forEach(x=>{if(x.city)s.add(x.city)})});
+  return [...s].sort((a,b)=>a.localeCompare(b,"fr"));
+}
+function renderPosts(){
+  const box=$("posts");box.textContent="";if(!current)return;
+  const dl=$("cities");dl.textContent="";
+  citiesOf(current).forEach(c=>{const o=document.createElement("option");o.value=c;dl.append(o)});
+  const list=posts.filter(p=>p.country===current);
+  $("cc").textContent=list.length?list.length+" souvenir"+(list.length>1?"s":"")+" partagé"+(list.length>1?"s":""):"Aucun souvenir pour l'instant. Sois le premier !";
+  list.forEach(p=>{
+    const d=document.createElement("article");d.className="post";
+    const ph=photosOf(p);
+    if(ph.length&&sb){
+      const g=document.createElement("div");g.className="pgrid"+(ph.length===1?" one":"");
+      ph.forEach(x=>{
+        const f=document.createElement("figure");
+        const i=document.createElement("img");i.src=pub(x.path);i.alt="Photo de "+nm(current);i.loading="lazy";f.append(i);
+        if(x.city){const c=document.createElement("figcaption");c.textContent="📍 "+x.city;f.append(c)}
+        g.append(f);
+      });
+      d.append(g);
+    }
+    const w=document.createElement("div");
+    if(p.city){const c=document.createElement("p");c.className="city";c.textContent="📍 "+p.city;w.append(c)}
+    if(p.text){const t=document.createElement("p");t.textContent=p.text;w.append(t)}
+    const m=document.createElement("div");m.className="meta";m.style.padding="0";
+    const a=document.createElement("span");a.textContent=(p.name||"Voyageur")+" · "+new Date(p.created_at).toLocaleDateString("fr-FR");m.append(a);
+    if(me&&(p.user_id===me.id||admin)){const x=document.createElement("button");x.textContent="Supprimer";x.onclick=()=>delPost(p);m.append(x)}
+    w.append(m);d.append(w);box.append(d);
+  });
+}
+async function delPost(p){
+  if(!confirm("Supprimer ce souvenir ?"))return;
+  const paths=photosOf(p).map(x=>x.path);
+  if(paths.length)await sb.storage.from("photos").remove(paths);
+  await sb.from("posts").delete().eq("id",p.id);await load();
+}
+
+function route(){
+  const c=location.hash.slice(1).toUpperCase();
+  const ok=CODES.includes(c);current=ok?c:null;
+  $("home").hidden=ok;$("country").hidden=!ok;
+  if(ok){$("cf").textContent=flag(c);$("cn").textContent=nm(c);if(window.showSat)showSat(c);if(typeof clearSel==="function")clearSel();renderPosts();window.scrollTo(0,0)}
+}
+
+$("back").onclick=()=>{location.hash="pays"};
+$("search").oninput=renderGrid;
+window.addEventListener("hashchange",route);
+
+async function load(){
+  if(!sb)return;
+  const r=await sb.from("posts").select("*").order("created_at",{ascending:false});
+  posts=r.data||[];renderGrid();renderPosts();
+}
+function setHero(path){const e=$("hero");e.style.backgroundImage="url("+pub(path)+")";e.classList.add("photo")}
+async function loadHero(){const r=await sb.from("settings").select("value").eq("key","hero").maybeSingle();if(r.data&&r.data.value)setHero(r.data.value)}
+async function refreshUser(){
+  const s=await sb.auth.getSession();me=s.data.session?s.data.session.user:null;admin=false;
+  if(me){const r=await sb.from("admins").select("user_id").eq("user_id",me.id).maybeSingle();admin=!!r.data}
+  $("authbtn").textContent=me?"Déconnexion ("+me.email+")":"Se connecter";
+  $("author").value=me?me.email.split("@")[0]:"";$("form").hidden=!me;$("loginhint").hidden=!!me;$("bgbtn").hidden=!admin;renderPosts();
+}
+const ext=f=>((f.name.split(".").pop()||"jpg").toLowerCase().replace(/[^a-z0-9]/g,"")||"jpg");
+$("authbtn").onclick=async()=>{if(me){await sb.auth.signOut()}else{$("amsg").textContent="";$("dlg").showModal()}};
+$("cancel").onclick=()=>$("dlg").close();
+$("login").onclick=async()=>{
+  const r=await sb.auth.signInWithPassword({email:$("em").value.trim(),password:$("pw").value});
+  if(r.error)$("amsg").textContent="Erreur : "+r.error.message;else $("dlg").close();
+};
+$("signup").onclick=async()=>{
+  const r=await sb.auth.signUp({email:$("em").value.trim(),password:$("pw").value});
+  if(r.error)$("amsg").textContent="Erreur : "+r.error.message;
+  else if(r.data.session)$("dlg").close();
+  else $("amsg").textContent="Compte créé ! Vérifie ta boîte mail pour confirmer, puis connecte-toi.";
+};
+let sel=[];
+function renderSel(){
+  const box=$("plist");box.textContent="";
+  sel.forEach((s,i)=>{
+    const r=document.createElement("div");r.className="prow";
+    const im=document.createElement("img");im.src=s.url;im.alt="";
+    const inp=document.createElement("input");inp.setAttribute("list","cities");inp.maxLength=60;inp.placeholder="Ville de cette photo";inp.value=s.city;inp.oninput=()=>{s.city=inp.value};
+    const x=document.createElement("button");x.className="xbtn";x.textContent="✕";x.title="Retirer";x.onclick=()=>{URL.revokeObjectURL(s.url);sel.splice(i,1);renderSel()};
+    r.append(im,inp,x);box.append(r);
+  });
+}
+function clearSel(){sel.forEach(s=>URL.revokeObjectURL(s.url));sel=[];renderSel()}
+$("photo").onchange=()=>{
+  const msg=$("msg");msg.textContent="";
+  for(const f of $("photo").files){
+    if(sel.length>=10){msg.textContent="10 photos maximum par souvenir.";break}
+    if(f.size>5*1024*1024){msg.textContent="« "+f.name+" » dépasse 5 Mo.";continue}
+    sel.push({file:f,url:URL.createObjectURL(f),city:$("city").value.trim()});
+  }
+  $("photo").value="";renderSel();
+};
+$("send").onclick=async()=>{
+  const msg=$("msg"),text=$("text").value.trim(),name=$("author").value.trim(),city=$("city").value.trim();
+  if(!me){msg.textContent="Connecte-toi pour publier.";return}
+  if(!text&&!sel.length){msg.textContent="Ajoute un commentaire ou une photo.";return}
+  $("send").disabled=true;
+  const done=[];
+  try{
+    const photos=[];
+    for(let i=0;i<sel.length;i++){
+      msg.textContent="Envoi des photos ("+(i+1)+"/"+sel.length+")…";
+      const s=sel[i],path=me.id+"/"+Date.now()+"-"+i+"."+ext(s.file);
+      const u=await sb.storage.from("photos").upload(path,s.file);if(u.error)throw u.error;
+      done.push(path);photos.push({path,city:s.city.trim()||city});
+    }
+    const r=await sb.from("posts").insert({country:current,name,city:city||null,text,photos});if(r.error)throw r.error;
+    clearSel();$("text").value="";$("city").value="";msg.textContent="Publié ✔";await load();
+  }catch(e){
+    if(done.length)await sb.storage.from("photos").remove(done);
+    msg.textContent="Impossible de publier : "+((e&&e.message)||"erreur");
+  }
+  $("send").disabled=false;
+};
+$("bgbtn").onclick=()=>$("bgfile").click();
+$("bgfile").onchange=async()=>{
+  const f=$("bgfile").files[0];if(!f)return;
+  try{const path="hero/"+Date.now()+"."+ext(f);
+    const u=await sb.storage.from("photos").upload(path,f);if(u.error)throw u.error;
+    const r=await sb.from("settings").upsert({key:"hero",value:path});if(r.error)throw r.error;setHero(path)}
+  catch(e){alert("Impossible de changer l'image de fond.")}
+};
+renderGrid();route();
+if(!window.supabase||SUPABASE_URL.startsWith("COLLE")){
+  $("authbtn").hidden=true;$("loginhint").textContent="Le site n'est pas encore relié à Supabase : les connexions et les publications sont désactivées.";
+}else{
+  sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+  sb.auth.onAuthStateChange(()=>{refreshUser()});
+  load();loadHero();
+}
+</script>
+<script src="compte.js"></script>
+</body>
+</html>
