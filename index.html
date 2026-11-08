@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr">
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
+   <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+   <script src="satellite.js"></script>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -96,7 +99,7 @@ dialog::backdrop{background:rgba(0,0,0,.5)}dialog h2{font-size:1.4rem;margin-bot
   <button class="back" id="back">← Tous les pays</button>
   <div class="head"><span class="f" id="cf"></span><h2 id="cn"></h2></div>
   <p class="sub" id="cc"></p>
-  <div class="map" id="mapbox"><svg viewBox="0 0 300 200" role="img" aria-label="Carte du pays"><path id="mp"/></svg></div>
+     <div id="sat"></div>
   <p class="msg" id="loginhint">Connecte-toi pour ajouter un souvenir.</p>
   <div class="form" id="form" hidden>
    <input id="author" readonly placeholder="Ton nom">
